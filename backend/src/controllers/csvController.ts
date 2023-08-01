@@ -32,11 +32,32 @@ function storeCsv(req: Request, res: Response) {
 
 
 function searchOnCsv(req: Request, res: Response) {
-    const { q } = req.query;
+    const { q }: any = req.query;
 
-    res.status(200).json({
-        status: 200,
-        data: {}
+    const matches: {}[] = [];
+
+    database.dbReader((err: Error, data: { files: {}[][] }) => {
+        if (err){
+            res.status(500).json({
+                status: 500,
+                message: "Error reading db"
+            })
+        }
+        const { files } = data;
+
+        for (const file of files){
+            for (const data of file){
+                for (const [_, value] of Object.entries(data)){
+                    if ((value as string).toLowerCase().includes(q.toLowerCase())){
+                        matches.push(data);
+                    }
+                }
+            }
+        }
+        res.status(200).json({
+            status: 200,
+            data: matches
+        });
     })
 }
 

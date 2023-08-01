@@ -35,10 +35,14 @@ function App(): JSX.Element {
     console.log(result);
   }
 
-  async function searchOnFile(e: MouseEvent) {
+  async function searchFile(e: MouseEvent) {
     const path = `${API_BASE_URL}/searchOnCsv?${searchParams}`;
-    console.log(path)
-    await fetch(path);
+
+    const response = await fetch(path);
+    
+    const result = await response.json();
+
+    console.log(result)
   }
 
   function onSearchChange(e: ChangeEvent) {
@@ -59,7 +63,7 @@ function App(): JSX.Element {
           id="csvSearchBar"
           onChange={onSearchChange}
         />
-        <button onClick={searchOnFile}>Search</button>
+        <button onClick={searchFile}>Search</button>
       </div>
       <form>
         <input

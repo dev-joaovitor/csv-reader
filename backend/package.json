@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "build": "npx tsc",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon --ignore src/database src/server.ts",
     "start": "nodemon dist/server.js"
   },
   "keywords": [],

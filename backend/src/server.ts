@@ -11,5 +11,4 @@ app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use("/api/v1/", csvRoutes);
 
-
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
