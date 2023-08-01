@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
 
-async function fileValidation(req: Request, res: Response, next: NextFunction){
+function fileValidation(req: Request, res: Response, next: NextFunction){
     const files = req.files as FileArray;
     const badRequest = 400;
 
@@ -32,6 +32,19 @@ async function fileValidation(req: Request, res: Response, next: NextFunction){
     next();
 }
 
+function urlQueryValidation(req: Request, res: Response, next: NextFunction){
+    const { q } = req.query;
+
+    if (q === null){
+        return res.status(400).json({
+            status: 400,
+            message: "Missing query parameter",
+        })
+    }
+    next();
+}
+
 export default {
+    urlQueryValidation,
     fileValidation
 }

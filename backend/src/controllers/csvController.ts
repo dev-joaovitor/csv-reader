@@ -1,37 +1,46 @@
 import { Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
-import { parse } from "csv";
-import DB from "../../src/database/database";
+import { parse as CsvParse } from "csv";
+import database from "../database/database";
 
-console.log(DB);
+function storeCsv(req: Request, res: Response) {
+    const fileArray = req.files as FileArray;
+    const fileKeys = Object.keys(fileArray);
+    const file = fileArray[fileKeys[0]] as UploadedFile;
 
-async function storeCsv(req: Request, res: Response) {
-    const files = req.files as FileArray;
-    const fileKeys = Object.keys(files);
-    const file = files[fileKeys[0]] as UploadedFile;
+    const csvData: any[] = [];
 
-    const data: any = [];
-
-    parse(file.data, { delimiter: ",", columns: true })
-        .on("data", (row) => {
-            DB.person.push(row);
-            console.log(DB);
+    CsvParse(file.data, { delimiter: ",", columns: true })
+        .on("data", (row: {}) => {
+            csvData.push(row);
         })
         .on("end", () => {
-
+            database.dbUpdater(csvData);
 
             res.status(200).json({
                 status: 200,
-                data,
+                data: csvData,
             })
         })
         .on("error", (err) => {
-            if (err) throw err;
-            res.status(400).json({ status: 400 })
+            res.status(500).json({
+                status: 500,
+                message: "Error reading CSV file",
+            })
         })
 }
 
 
+function searchOnCsv(req: Request, res: Response) {
+    const { q } = req.query;
+
+    res.status(200).json({
+        status: 200,
+        data: {}
+    })
+}
+
 export default {
-    storeCsv
+    storeCsv,
+    searchOnCsv
 }
