@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ChangeEvent, MouseEvent, useState  } from 'react';
+import { ChangeEvent, MouseEvent,useState  } from 'react';
 import { useSearchParams } from "react-router-dom";
 // import './App.css'
 
@@ -7,6 +7,7 @@ function App(): JSX.Element {
   const API_BASE_URL = 'http://localhost:3000/api/v1';
 
   const [file, setFile] = useState(null as unknown as File);
+  const [data, setData] = useState(null as unknown as [{}]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   function onFileChange(e: ChangeEvent) {
@@ -31,17 +32,16 @@ function App(): JSX.Element {
     });
 
     const result = await response.json();
-
+    setData(result.data);
     console.log(result);
   }
 
-  async function searchFile(e: MouseEvent) {
+  async function searchFile() {
     const path = `${API_BASE_URL}/searchOnCsv?${searchParams}`;
 
     const response = await fetch(path);
     
     const result = await response.json();
-
     console.log(result)
   }
 
