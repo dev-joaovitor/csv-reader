@@ -1,4 +1,4 @@
-export default function Cards({ data }: { data: never[] }){
+export default function Cards({ data }: { data: object[] }){
     return (
         <>
             {data.map((obj: object, key: number) => {
