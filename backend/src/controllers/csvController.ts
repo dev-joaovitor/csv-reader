@@ -45,6 +45,8 @@ function searchOnCsv(req: Request, res: Response) {
         }
         const { files } = data;
 
+        if (files)
+
         for (const file of files){
             for (const data of file){
                 for (const [_, value] of Object.entries(data)){

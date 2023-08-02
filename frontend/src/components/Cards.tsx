@@ -1,10 +1,12 @@
-export default function Cards({ data }: { data: object[] }){
+import React from "react";
+
+export default function Cards({ data }: { data: object[] }): React.JSX.Element {
     return (
-        <>
+        <div className="cardsContainer">
             {data.map((obj: object, key: number) => {
-                const ps = []
+                const ps: any = []
                 for (const [field, value] of Object.entries(obj)){
-                    ps.push(<p>{`${field}: ${value}`}</p>);
+                    ps.push(<p className="cardData">{`${field}: ${value}`}</p>);
                 }
                 return (
                     <div key={key} className="cards">
@@ -12,6 +14,6 @@ export default function Cards({ data }: { data: object[] }){
                     </div>
                 )
             })}
-        </>
+        </div>
     )
 }

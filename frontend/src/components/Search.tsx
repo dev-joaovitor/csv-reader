@@ -1,9 +1,14 @@
-import { ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const API_BASE_URL = 'http://localhost:3000/api/v1';
-// lteredData: React.Dispatch<React.SetStateAction<never
-export default function Search({ setFilteredData, setIsFiltered }: { setFilteredData:  React.Dispatch<React.SetStateAction<never[]>>, setIsFiltered: React.Dispatch<React.SetStateAction<boolean>> }) {
+
+export default function Search({ setFilteredData, setIsFiltered, setErrorMessage }: {
+  setFilteredData:  React.Dispatch<React.SetStateAction<never[]>>,
+  setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>
+}): React.JSX.Element 
+  {
     const [searchParams, setSearchParams] = useSearchParams();
 
     function onSearchChange(e: ChangeEvent) {
@@ -20,8 +25,15 @@ export default function Search({ setFilteredData, setIsFiltered }: { setFiltered
         const response = await fetch(path);
         
         const result = await response.json();
-        setFilteredData(result.data);
+        
+        setFilteredData(result?.data || []);
         setIsFiltered(true);
+
+        if (result.status !== 200){
+          return setErrorMessage(result.message);
+        }
+
+        setErrorMessage("No data to be showed =(");
         console.log(result)
     }
 
@@ -31,15 +43,20 @@ export default function Search({ setFilteredData, setIsFiltered }: { setFiltered
 
     return (
         <div className="searchContainer">
-            <input
-              type="text"
-              id="csvSearchBar"
-              onChange={onSearchChange}
-            />
+            <label id="searchBarLabel">
+              Search for any parameter in the file:
+              <input
+                type="text"
+                id="csvSearchBar"
+                placeholder="Ex.: Brazil"
+                onChange={onSearchChange}
+              />
+            </label>
 
             <button
               id="searchBtn"
               className="btn"
+              type="button"
               onClick={searchFile}
             >Search
             </button>
@@ -47,6 +64,7 @@ export default function Search({ setFilteredData, setIsFiltered }: { setFiltered
             <button
               id="clearFilterBtn"
               className="btn"
+              type="button"
               onClick={clearFilter}
             >Clear Filter
             </button>

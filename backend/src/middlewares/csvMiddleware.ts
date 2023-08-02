@@ -35,7 +35,7 @@ function fileValidation(req: Request, res: Response, next: NextFunction){
 function urlQueryValidation(req: Request, res: Response, next: NextFunction){
     const { q } = req.query;
 
-    if (q === null || q === ""){
+    if (q === null || q === "" || q === undefined){
         return res.status(400).json({
             status: 400,
             message: "Missing query parameter",
