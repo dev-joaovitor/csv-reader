@@ -54,6 +54,7 @@ export default function Search({ setFilteredData, setIsFiltered, setErrorMessage
             </label>
 
             <button
+              name="searchBtn"
               id="searchBtn"
               className="btn"
               type="button"
@@ -62,6 +63,7 @@ export default function Search({ setFilteredData, setIsFiltered, setErrorMessage
             </button>
 
             <button
+              name="clearFilterBtn"
               id="clearFilterBtn"
               className="btn"
               type="button"

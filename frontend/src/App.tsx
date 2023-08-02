@@ -29,7 +29,7 @@ function App(): React.JSX.Element {
 
       {isFiltered === true  && filteredData.length > 0 && <Cards data={filteredData} /> ||
        isFiltered === false && data.length > 0         && <Cards data={data} /> ||
-       <h1>{errorMessage}</h1>}
+       <h2>{errorMessage}</h2>}
     </main>
   )
 }
