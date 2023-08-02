@@ -23,7 +23,7 @@ function fileValidation(req: Request, res: Response, next: NextFunction){
 
     const file = files[fileKeys[0]] as UploadedFile;
 
-    if (!file.name.includes("csv")){
+    if (!file.name.endsWith(".csv")){
         return res.status(badRequest).json({
             status: badRequest,
             message: "Only CSV files are allowed"
