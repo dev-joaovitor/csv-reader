@@ -1,4 +1,4 @@
-# fullstack-csv-app
+# CSV Web App
 
 I don't have more time to implement tests so I decided to send the repo already =(
 
